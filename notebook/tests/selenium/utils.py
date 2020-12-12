@@ -1,4 +1,7 @@
 import os
+import sys
+from contextlib import contextmanager
+
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -6,7 +9,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
 
-from contextlib import contextmanager
 
 pjoin = os.path.join
 
