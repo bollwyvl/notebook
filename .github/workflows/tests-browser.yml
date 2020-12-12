@@ -2,9 +2,9 @@ name: Python Tests
 
 on:
   push:
-    branches: '*'
+    branches: [master]
   pull_request:
-    branches: '*'
+    branches: [master]
 
 env:
   JUPYTER_TEST_BROWSER: firefox
