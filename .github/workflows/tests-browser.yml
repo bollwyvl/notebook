@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        python-version: [ '3.6', '3.9' ]
+        python-version: ['3.6', '3.9']
     defaults:
       run:
         shell: bash -l {0}
@@ -34,9 +34,9 @@ jobs:
           ${{ runner.os }}-conda-${{ matrix.python-version }}-
     - name: Install Browser Test Dependencies
       uses: conda-incubator/setup-miniconda@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-          environment-file: .github/tests-browser.yml
+      with:
+        python-version: ${{ matrix.python-version }}
+        environment-file: .github/tests-browser.yml
     - name: List conda packages
       run: |
         conda list --explicit
