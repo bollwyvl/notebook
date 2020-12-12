@@ -192,8 +192,7 @@ def all_js_groups():
     return [
         os.path.relpath(x, test_dir)
         for x in all_subdirs
-        # mockextension hangs in GithubActions
-        if os.path.basename(test_dir) not in ["mockextension"]
+        if os.path.relpath(x, test_dir) not in ["mockextension"]
     ]
 
 class JSController(TestController):
