@@ -32,6 +32,12 @@ def popen_wait(p, timeout):
     return p.wait(timeout)
 
 NOTEBOOK_SHUTDOWN_TIMEOUT = 10
+SKIP_JS_GROUPS = [
+    # doesn't appear to do anything
+    "mockextension",
+    # has its own test entrypoint
+    "selenium"
+]
 
 have = {}
 have['casperjs'] = bool(which('casperjs'))
@@ -192,7 +198,7 @@ def all_js_groups():
     return [
         os.path.relpath(x, test_dir)
         for x in all_subdirs
-        if os.path.relpath(x, test_dir) not in ["mockextension"]
+        if os.path.relpath(x, test_dir) not in SKIP_JS_GROUPS
     ]
 
 class JSController(TestController):
