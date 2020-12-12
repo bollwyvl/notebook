@@ -1,0 +1,16 @@
+name: test
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  # browser deps
+  - firefox >=78,<79
+  - geckodriver
+  - nodejs >=12,<13
+  - pandoc
+  # rest of python deps
+  - pip
+  - setuptools
+  - wheel
