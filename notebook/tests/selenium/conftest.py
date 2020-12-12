@@ -66,9 +66,9 @@ def notebook_server():
         print("Notebook server info:", info)
         yield info
 
-    # Shut the server down
-    requests.post(urljoin(info['url'], 'api/shutdown'),
-                  headers={'Authorization': 'token '+info['token']})
+        # Shut the server down
+        requests.post(urljoin(info['url'], 'api/shutdown'),
+                    headers={'Authorization': 'token '+info['token']})
 
 
 def make_sauce_driver():
