@@ -70,6 +70,8 @@ def notebook_server():
         requests.post(urljoin(info['url'], 'api/shutdown'),
                     headers={'Authorization': 'token '+info['token']})
 
+        proc.wait()
+
 
 def make_sauce_driver():
     """This function helps travis create a driver on Sauce Labs.
