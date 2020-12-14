@@ -220,7 +220,7 @@ class JSController(TestController):
         js_test_dir = get_js_test_dir()
         includes = '--includes=' + os.path.join(js_test_dir,'util.js')
         test_cases = os.path.join(js_test_dir, self.section)
-        self.cmd = ['casperjs', 'test', includes, test_cases, '--engine=%s' % self.engine]
+        self.cmd = [shutil.which('casperjs'), 'test', includes, test_cases, '--engine=%s' % self.engine]
 
     def setup(self):
         self.ipydir = TemporaryDirectory()
