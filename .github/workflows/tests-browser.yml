@@ -37,6 +37,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         environment-file: .github/tests-browser.yml
+    - if: ${{ matrix.os == 'windows' }}
+      name: Install windows conda dependencies
+      run: conda install -c conda-forge -c msys2 -c nodefaults pywin32
     - name: List conda packages
       run: |
         conda list --explicit
