@@ -1,0 +1,66 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos, windows]
+        python-version: ['3.6', '3.7', '3.8', '3.9', 'pypy3']
+        exclude:
+        - os: windows
+          python-version: pypy3
+        include:
+        # TODO: remove if fixed https://github.com/spyder-ide/pywinpty/issues/134
+        - os: windows
+          python-version: '3.9'
+          pytest-args: --ignore notebook/terminal
+        - python-version: pypy3
+          pytest-args: -k "not culling"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Install Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: 'x64'
+    - name: Upgrade packaging dependencies
+      run: |
+        pip install --upgrade pip setuptools wheel --user
+    - name: Get pip cache dir
+      id: pip-cache
+      run: |
+        echo "::set-output name=dir::$(pip cache dir)"
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ${{ steps.pip-cache.outputs.dir }}
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('setup.py') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+          ${{ runner.os }}-pip-
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - name: Build static assets
+      run: |
+        python setup.py build
+    - name: Install the Python dependencies
+      run: |
+        pip install -e .[test] codecov
+    - name: List installed packages
+      run: |
+        pip freeze
+        pip check
+    - name: Run the tests
+      timeout-minutes: 30
+      run: |
+        pytest -vv notebook --cov notebook --ignore notebook/tests/selenium --cov-branch --cov-report term-missing:skip-covered --durations 10 ${{ matrix.pytest-args }}

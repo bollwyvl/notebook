@@ -115,7 +115,7 @@ for more information.
         'prometheus_client'
     ],
     extras_require = {
-        'test': ['pytest', 'coverage', 'requests',
+        'test': ['pytest', 'coverage', 'requests', 'nose',
                  'nbval', 'selenium', 'pytest', 'pytest-cov'],
         'docs': ['sphinx', 'nbsphinx', 'sphinxcontrib_github_alt', 'sphinx_rtd_theme'],
         'test:sys_platform != "win32"': ['requests-unixsocket'],

@@ -1,3 +1,4 @@
+import time
 import json
 import nbformat
 from nbformat.v4 import new_notebook, new_code_cell
@@ -66,9 +67,13 @@ def notebook_server():
         print("Notebook server info:", info)
         yield info
 
-    # Shut the server down
-    requests.post(urljoin(info['url'], 'api/shutdown'),
-                  headers={'Authorization': 'token '+info['token']})
+        # Shut the server down
+        requests.post(urljoin(info['url'], 'api/shutdown'),
+                    headers={'Authorization': 'token '+info['token']})
+
+        while proc.returncode is None:
+            proc.wait()
+            time.sleep(5)
 
 
 def make_sauce_driver():
